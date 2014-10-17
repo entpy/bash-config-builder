@@ -1,0 +1,81 @@
+LOCAL_SETTINGS = True
+from settings import *
+
+ADMINS = (('$ADMIN_NAME', '$ADMIN_EMAIL'))
+PROJECT_POSTFIX = "$PROJECT_POSTFIX"
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = '$SECURE_KEY'
+
+DEBUG = False #True | False
+
+TEMPLATE_DEBUG = False
+
+STATIC_ROOT = '/webapp/data/$GIT_PROJECT_NAME' + PROJECT_POSTFIX + '/static/'
+
+ALLOWED_HOSTS = [$ALLOWED_HOST]
+
+# Database
+# https://docs.djangoproject.com/en/1.6/ref/settings/#databases
+
+# MySQL setting
+DATABASES = {
+        'default': {
+                'ENGINE': 'django.db.backends.mysql',
+                'NAME': '$DATABASE_NAME',
+                'USER': '$DATABASE_USER',
+                'PASSWORD': '$DATABASE_PASSWORD',
+                'HOST': '127.0.0.1',
+                'PORT': '3306',
+        }
+}
+
+LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'handlers': {
+                'file': {
+                        'level': 'DEBUG',
+                        'class': 'logging.FileHandler',
+                        'filename': '/tmp/$GIT_PROJECT_NAME' + PROJECT_POSTFIX + '_debug.log',
+                },
+                'console' : {
+                        'class' : 'logging.StreamHandler',
+                        'level' : 'INFO',
+                        'stream' : 'ext://sys.stdout',
+                },
+        },
+        'loggers': {
+                'django.request': {
+                        'handlers': ['file'],
+                        'level': 'DEBUG',
+                        'propagate': True,
+                },
+        },
+}
+
+"""
+# postgreSQL
+DATABASES = {
+        'default': {
+                'ENGINE': 'django.db.backends.postgresql_psycopg2',
+                'NAME': '',
+                'USER': '',
+                'PASSWORD': '',
+                'HOST': '127.0.0.1',
+                'PORT': '5432',
+        }
+}
+
+# MySQL
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': '',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+    }
+}
+""" 
