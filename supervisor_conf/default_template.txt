@@ -1,0 +1,21 @@
+; Sample supervisor config file.
+;
+; For more information on the config file, please see:
+; http://supervisord.org/configuration.html
+;
+; Note: shell expansion ("~" or "$HOME") is not supported.  Environment
+; variables can be expanded using this syntax: "%(ENV_HOME)s".
+
+; PRODUCTION ENVIRONMENT
+[program:{PRODUCTION_APP_NAME}]
+command={PRODUCTION_APP_PATH}/bin/gunicorn_start                        ; the program (relative uses PATH, can take args)
+user=www                                                                        ; setuid to this UNIX account to run the program
+redirect_stderr=true                                                            ; redirect proc stderr to stdout (default false)
+stdout_logfile={PRODUCTION_APP_PATH}/logs/gunicorn_supervisor.log       ; stdout log path, NONE for none; default AUTO
+
+; SANDBOX ENVIRONMENT
+[program:{SANDBOX_APP_NAME}]
+command={SANDBOX_APP_PATH}/bin/gunicorn_start                        ; the program (relative uses PATH, can take args)
+user=www                                                                                ; setuid to this UNIX account to run the program
+redirect_stderr=true                                                                    ; redirect proc stderr to stdout (default false)
+stdout_logfile={SANDBOX_APP_PATH}/logs/gunicorn_supervisor.log       ; stdout log path, NONE for none; default AUTO

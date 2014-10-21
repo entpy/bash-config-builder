@@ -1,0 +1,44 @@
+#!/bin/bash
+
+WEBAPPSITENAME="{WEBAPPSITENAME}" # Name of directory inside /webapp/ TODO: EDIT FOR EVERY APP!
+NAME="{NAME}" # Name of the application (internal to Django)
+WEBAPPSITEDIR="/webapp/$WEBAPPSITENAME"
+DJANGODIR="$WEBAPPSITEDIR/$NAME/" # Django project directory
+SOCKFILE="$WEBAPPSITEDIR/run/gunicorn.sock" # we will communicte using this unix socket
+LOGFILE="$WEBAPPSITEDIR/logs/gunicorn.log" # we will communicte using this unix socket
+ERROR_LOGFILE="$WEBAPPSITEDIR/logs/gunicorn_error.log" # we will communicte using this unix socket
+USER="www" # the user to run as
+GROUP="web" # the group to run as
+NUM_WORKERS=2 # how many worker processes should Gunicorn spawn
+DJANGO_SETTINGS_MODULE=$NAME.settings # which settings file should Django use
+DJANGO_WSGI_MODULE=$NAME.wsgi # WSGI module name
+
+echo "Starting $WEBAPPSITENAME as `whoami` from $DJANGODIR"
+
+# Activate the virtual environment
+cd $DJANGODIR
+source "$WEBAPPSITEDIR/bin/activate"
+export DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE
+export PYTHONPATH=$DJANGODIR:$PYTHONPATH
+
+# Create the run directory if it doesn't exist
+RUNDIR=$(dirname $SOCKFILE)
+test -d $RUNDIR || mkdir -m 777 -p $RUNDIR
+# chown $USER.developer $RUNDIR
+
+# Create the log directory if it doesn't exist
+LOGDIR=$(dirname $LOGFILE)
+test -d $LOGDIR || mkdir -m 777 -p $LOGDIR
+# chown $USER.developer $LOGDIR
+
+# Start your Django Unicorn
+# Programs meant to be run under supervisor should not daemonize themselves (do not use --daemon)
+exec "$WEBAPPSITEDIR/bin/gunicorn" ${DJANGO_WSGI_MODULE}:application \
+--name $WEBAPPSITENAME \
+--workers $NUM_WORKERS \
+--user=$USER --group=$GROUP \
+--bind=unix:$SOCKFILE \
+--log-level=debug \
+--access-logfile=$LOGFILE \
+--error-logfile=$ERROR_LOGFILE \
+#2>>$ERROR_LOGFILE
