@@ -2,32 +2,6 @@
 
 # script
 
-function build_environment() {
-	ENVIRONMENT_NAME="$1"
-	# upload di GIT_PROJECT_NAME nella directory di sandbox (git clone in sandbox)
-	echo "### cd $PROJET_DIR ###"
-	cd $PROJET_DIR
-	echo "### git clone $GIT_REPO_URL $ENVIRONMENT_NAME ###"
-	git clone $GIT_REPO_URL $ENVIRONMENT_NAME
-
-	# creo il virtualenv
-	echo "### virtualenv $ENVIRONMENT_NAME ###"
-	virtualenv $ENVIRONMENT_NAME
-
-	# entro nel virtualenv e lo attivo
-	echo "### cd $ENVIRONMENT_NAME ###"
-	cd $ENVIRONMENT_NAME
-	echo "### source bin/activate ###"
-	source bin/activate
-
-	# installo le dipendenze con pip leggendo da un file che metterò nel repo di git
-	echo "### pip install requirements file ###"
-	#pip install -r requirements.txt
-
-	# virtualenv deactivate
-	deactivate
-}
-
 # funzione per scrivere la configurazione finale
 function write_custom_configuration() {
 

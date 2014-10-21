@@ -24,13 +24,24 @@ PROJET_DIR="$WEBAPP_DIR$PROJECT_NAME/"
 # configurazioni varie di git e pip
 GIT_REPO_URL="git://github.com/$GIT_ACCOUNT_NAME/$GIT_PROJECT_NAME.git"
 
-# tipi di configurazioni pluggate (ATTENZIONE: definite secondo un ordine di esecuzione)
+# tipi di configurazioni pluggate (ATTENZIONE: elmenti definiti secondo un ordine di esecuzione)
 CONF_PLUGGED=(
+		# environment plugin
+		"environment_sandbox"
+		"environment_production"
+
+		# django local settings plugin
 		"local_settings_sandbox"
 		"local_settings_production"
+
+		# gunicorn plugin
 		"gunicorn_sandbox"
 		"gunicorn_production"
+
+		# supervisor plugin
 		"supervisor"
+
+		# nginx plugin
 		"nginx"
 	)
 
@@ -38,6 +49,13 @@ CONF_PLUGGED=(
 # il nome deve coincidere con un plugin definito in $CONF_PLUGGED
 # seguito da uno spazio e dal tipo di configurazione del plugin (ordine casuale)
 declare -A PLUGIN_CONF_ARRAY=(
+		# environment conf {{{
+		["environment_sandbox PLUGIN_DIR_NAME"]="environment_conf" 
+		["environment_sandbox CONFIGURATION_FILE"]="sandbox.conf" 
+		["environment_production PLUGIN_DIR_NAME"]="environment_conf" 
+		["environment_production CONFIGURATION_FILE"]="production.conf" 
+		# environment conf }}}
+
 		# django local setting conf {{{
 		["local_settings_sandbox PLUGIN_DIR_NAME"]="local_settings_conf" 
 		["local_settings_sandbox CONFIGURATION_FILE"]="sandbox.conf" 
@@ -51,10 +69,12 @@ declare -A PLUGIN_CONF_ARRAY=(
 		["gunicorn_production PLUGIN_DIR_NAME"]="gunicorn_conf" 
 		["gunicorn_production CONFIGURATION_FILE"]="production.conf" 
 		# gunicorn conf }}}
+
 		# supervisor setting conf {{{
 		["supervisor PLUGIN_DIR_NAME"]="supervisor_conf" 
 		["supervisor CONFIGURATION_FILE"]="all_environment.conf" 
 		# supervisor setting conf }}}
+
 		# nginx setting conf {{{
 		["nginx PLUGIN_DIR_NAME"]="nginx_conf" 
 		["nginx CONFIGURATION_FILE"]="all_environment.conf" 
