@@ -12,7 +12,7 @@ function write_custom_configuration() {
 
 	for key in "${!TEMPLATE_SUBSTITUTION[@]}"
 	do
-		SED_STR="s/$key/${TEMPLATE_SUBSTITUTION[$key]}/"
+		SED_STR="s|$key|${TEMPLATE_SUBSTITUTION[$key]}|"
 		CONF_TEMPLATE=$(echo "$CONF_TEMPLATE" | sed -e $SED_STR)
 	done
 
@@ -39,12 +39,12 @@ function build_conf_files() {
 
 function make_project_dir() {
 	# creo la directory contenente le webapp (se non esiste già) e quella del progetto
-	echo "### mkdir -p $PROJET_DIR ###"
-	mkdir -p "$PROJET_DIR"
+	echo "### mkdir -p ${INI__project_dir_path} ###"
+	mkdir -p "${INI__project_dir_path}"
 }
 
 function check_app_directory() {
-	if [ -d "$PROJET_DIR" ]; then
+	if [ -d "${INI__project_dir_path}" ]; then
 		echo "enviroment per la webapp gia' configurato"
 		exit
 	fi

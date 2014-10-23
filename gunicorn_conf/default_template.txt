@@ -1,25 +1,24 @@
 #!/bin/bash
 
-WEBAPPSITENAME="{WEBAPPSITENAME}" # Name of directory inside /webapp/ TODO: EDIT FOR EVERY APP!
-NAME="{NAME}" # Name of the application (internal to Django)
-WEBAPPSITEDIR="/webapp/$WEBAPPSITENAME"
-DJANGODIR="$WEBAPPSITEDIR/$NAME/" # Django project directory
-SOCKFILE="$WEBAPPSITEDIR/run/gunicorn.sock" # we will communicte using this unix socket
-LOGFILE="$WEBAPPSITEDIR/logs/gunicorn.log" # we will communicte using this unix socket
-ERROR_LOGFILE="$WEBAPPSITEDIR/logs/gunicorn_error.log" # we will communicte using this unix socket
+APPNAME="{APPNAME}" # App name
+DJANGO_PROJECT_NAME="{DJANGO_PROJECT_NAME}" # Django project name (inside $PROJECT_DIR_PATH) (internal to Django)
+PROJECT_DIR_PATH="{PROJECT_DIR_PATH}" # Django project directory
+SOCKFILE="$PROJECT_DIR_PATH/run/gunicorn.sock" # we will communicte using this unix socket
+LOGFILE="$PROJECT_DIR_PATH/logs/gunicorn.log" # we will communicte using this unix socket
+ERROR_LOGFILE="$PROJECT_DIR_PATH/logs/gunicorn_error.log" # we will communicte using this unix socket
 USER="www" # the user to run as
 GROUP="web" # the group to run as
 NUM_WORKERS=2 # how many worker processes should Gunicorn spawn
-DJANGO_SETTINGS_MODULE=$NAME.settings # which settings file should Django use
-DJANGO_WSGI_MODULE=$NAME.wsgi # WSGI module name
+DJANGO_SETTINGS_MODULE=$DJANGO_PROJECT_NAME.settings # which settings file should Django use
+DJANGO_WSGI_MODULE=$DJANGO_PROJECT_NAME.wsgi # WSGI module name
 
-echo "Starting $WEBAPPSITENAME as `whoami` from $DJANGODIR"
+echo "Starting $APPNAME as `whoami` from $PROJECT_DIR_PATH"
 
 # Activate the virtual environment
-cd $DJANGODIR
-source "$WEBAPPSITEDIR/bin/activate"
+cd $PROJECT_DIR_PATH
+source "bin/activate"
 export DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE
-export PYTHONPATH=$DJANGODIR:$PYTHONPATH
+export PYTHONPATH=$PROJECT_DIR_PATH:$PYTHONPATH
 
 # Create the run directory if it doesn't exist
 RUNDIR=$(dirname $SOCKFILE)
@@ -33,8 +32,8 @@ test -d $LOGDIR || mkdir -m 777 -p $LOGDIR
 
 # Start your Django Unicorn
 # Programs meant to be run under supervisor should not daemonize themselves (do not use --daemon)
-exec "$WEBAPPSITEDIR/bin/gunicorn" ${DJANGO_WSGI_MODULE}:application \
---name $WEBAPPSITENAME \
+exec "$PROJECT_DIR_PATH/bin/gunicorn" ${DJANGO_WSGI_MODULE}:application \
+--name $APPNAME \
 --workers $NUM_WORKERS \
 --user=$USER --group=$GROUP \
 --bind=unix:$SOCKFILE \

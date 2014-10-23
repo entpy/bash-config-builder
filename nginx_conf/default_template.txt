@@ -95,7 +95,6 @@ server {
 server {
 
         listen 80;
-        #server_name sandbox.entpy.com;
         # server_name domain_name;
 
         client_max_body_size 10M;
@@ -153,7 +152,6 @@ server {
 
         location = /robots.txt {
                 # return 404;
-                # root /webapp/entpy-django-website-sandbox/website/static_resources/;
                 alias {SANDBOX_APP_PATH}/data/static/website/robots.txt;
         }
 
