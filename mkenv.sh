@@ -44,10 +44,10 @@ CONF_PLUGGED=(
 		"gunicorn_production"
 
 		# supervisor plugin
-		#"supervisor"
+		"supervisor"
 
 		# nginx plugin
-		#"nginx"
+		"nginx"
 	)
 
 # configurazioni per i tipi di configurazioni pluggate:
@@ -76,13 +76,13 @@ declare -A PLUGIN_CONF_ARRAY=(
 		# gunicorn conf }}}
 
 		# supervisor setting conf {{{
-		#["supervisor PLUGIN_DIR_NAME"]="supervisor_conf"
-		#["supervisor CONFIGURATION_FILE"]="all_environment.sh"
+		["supervisor PLUGIN_DIR_NAME"]="supervisor_conf"
+		["supervisor CONFIGURATION_FILE"]="all_environment.sh"
 		# supervisor setting conf }}}
 
 		# nginx setting conf {{{
-		#["nginx PLUGIN_DIR_NAME"]="nginx_conf"
-		#["nginx CONFIGURATION_FILE"]="all_environment.sh"
+		["nginx PLUGIN_DIR_NAME"]="nginx_conf"
+		["nginx CONFIGURATION_FILE"]="all_environment.sh"
 		# nginx setting conf }}}
 	)
 
