@@ -89,7 +89,6 @@ declare -A PLUGIN_CONF_ARRAY=(
 # TODO: se la directory $WEBAPP_DIR$PROJECT_NAME esiste già -> exit (environment already exists)
 # check_app_directory
 
-# TODO: anche le funzioni seguenti devono avere la stessa struttura dei plugin
 # creating project directory
 make_project_dir
 
