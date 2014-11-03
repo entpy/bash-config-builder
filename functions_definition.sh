@@ -45,7 +45,7 @@ function make_project_dir() {
 
 function check_app_directory() {
 	if [ -d "${INI__project_dir_path}" ]; then
-		echo "enviroment per la webapp gia' configurato"
+		echo "environment per la webapp gia' configurato"
 		exit
 	fi
 }

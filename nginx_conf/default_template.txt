@@ -76,13 +76,13 @@ server {
 
         # robots.txt page
         location /robots.txt {
-                root {PRODUCTION_APP_PATH}/data/static/website/;
+                root {PRODUCTION_APP_PATH}/data/static/;
                 # index robots.txt;
         }
 
         # sitemap.xml page
         location /sitemap.xml {
-                root {PRODUCTION_APP_PATH}/data/static/website/;
+                root {PRODUCTION_APP_PATH}/data/static/;
                 # index robots.txt;
         }
 
@@ -152,7 +152,7 @@ server {
 
         location = /robots.txt {
                 # return 404;
-                alias {SANDBOX_APP_PATH}/data/static/website/robots.txt;
+                alias {SANDBOX_APP_PATH}/data/static/robots.txt;
         }
 
         # HTTP caching

@@ -22,7 +22,7 @@ function plugin_init() {
 
 	# installo le dipendenze con pip leggendo da un file che metterò nel repo di git
 	echo "### pip install requirements file ###"
-	#pip install -r requirements.txt
+	pip install -r requirements.txt
 
 	# deactivating virtualenv
 	deactivate
